@@ -1,8 +1,8 @@
-export default async function Home() {
+export default async function Login() {
   // const { db } = await import("@/app/lib/db");
 
   // const posts = await db.post.findMany();
   // console.log({ posts });
 
-  return "Home";
+  return "Login";
 }
