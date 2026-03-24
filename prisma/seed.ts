@@ -2,46 +2,52 @@ import { Prisma, PrismaClient } from "@/app/generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import "dotenv/config";
 
-const connectionString = `${process.env.DATABASE_URL}`;
-const adapter = new PrismaBetterSqlite3({ url: connectionString });
+const url = `${process.env.DATABASE_URL}`;
+const adapter = new PrismaBetterSqlite3({ url });
 const db = new PrismaClient({ adapter });
 
-const userData: Prisma.UserCreateInput[] = [
+const lessons: Prisma.LessonCreateInput[] = [
   {
-    name: "Alice",
-    email: "alice@prisma.io",
-    posts: {
-      create: [
-        {
-          title: "Join the Prisma Discord",
-          content: "https://pris.ly/discord",
-          published: true,
-        },
-        {
-          title: "Prisma on YouTube",
-          content: "https://pris.ly/youtube",
-        },
-      ],
-    },
+    title: "Intro",
+    description: "Introduction to Async React",
+    icon: "lightbulb",
+    complete: false,
   },
   {
-    name: "Bob",
-    email: "bob@prisma.io",
-    posts: {
-      create: [
-        {
-          title: "Follow Prisma on Twitter",
-          content: "https://www.twitter.com/prisma",
-          published: true,
-        },
-      ],
-    },
+    title: "Transitions",
+    description: "Coordinating Async",
+    icon: "shuffle",
+    complete: false,
+  },
+  {
+    title: "Actions",
+    description: "Coordinating changes",
+    icon: "zap",
+    complete: false,
+  },
+  {
+    title: "Suspense",
+    description: "Deferred loading",
+    icon: "hourglass",
+    complete: false,
+  },
+  {
+    title: "Optimistic updates",
+    description: "Pretending async is sync",
+    icon: "fastforward",
+    complete: false,
+  },
+  {
+    title: "Putting it together",
+    description: "The vision for Async React",
+    icon: "puzzle",
+    complete: false,
   },
 ];
 
 export async function main() {
-  for (const u of userData) {
-    await db.user.create({ data: u });
+  for (const data of lessons) {
+    await db.lesson.create({ data });
   }
 }
 
