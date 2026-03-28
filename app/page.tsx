@@ -5,13 +5,15 @@ import {
   InputGroupControl,
   InputGroupRoot,
 } from "@/app/components/ui/input-group";
+import { ItemGroup } from "@/app/components/ui/item";
+import { CompleteButton } from "@/app/design/complete-button";
+import { LessonCard } from "@/app/design/lesson";
 import { toggleLesson } from "@/app/lib/actions";
 import { SearchIcon } from "lucide-react";
-import { setTimeout } from "node:timers/promises";
 import z from "zod";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
-  await setTimeout(3000);
+  // await setTimeout(3000);
 
   const { q, tab } = z
     .object({
@@ -40,24 +42,22 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             <InputGroupControl placeholder="Search..." />
           </InputGroupRoot>
           <TabList tab={tab}>
-            <ul className="grid gap-4">
+            <ItemGroup>
               {lessons.map((lesson) => {
                 return (
-                  <li key={lesson.id}>
-                    {lesson.title}{" "}
-                    <form
+                  <LessonCard key={lesson.id} item={lesson}>
+                    <CompleteButton
+                      isComplete={lesson.complete}
                       action={toggleLesson.bind(
                         null,
                         lesson.id,
                         !lesson.complete,
                       )}
-                    >
-                      <button>{lesson.complete ? "Uncheck" : "Check"}</button>
-                    </form>
-                  </li>
+                    />
+                  </LessonCard>
                 );
               })}
-            </ul>
+            </ItemGroup>
           </TabList>
         </div>
       </CardRoot>
