@@ -2,13 +2,14 @@ import { TabList } from "@/app/components/tab-list";
 import { CardRoot } from "@/app/components/ui/card";
 import { ItemGroup } from "@/app/components/ui/item";
 import { CompleteButton } from "@/app/design/complete-button";
+import { EmptyList } from "@/app/design/empty-list";
 import { FallbackList } from "@/app/design/fallback";
 import { LessonCard } from "@/app/design/lesson";
 import { SearchInput } from "@/app/design/search-input";
 import type { Lesson } from "@/app/generated/prisma/client";
 import { revalidatePath } from "next/cache";
 import { setTimeout } from "node:timers/promises";
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 import z from "zod";
 
 type CompleteAction = (
@@ -41,7 +42,7 @@ type LessonListProps = {
 const LessonList = async ({ tab, search, completeAction }: LessonListProps) => {
   const { db } = await import("@/app/lib/db");
 
-  await setTimeout(3000);
+  // await setTimeout(3000);
 
   const lessons = await db.lesson.findMany({
     where: {
@@ -62,17 +63,25 @@ const LessonList = async ({ tab, search, completeAction }: LessonListProps) => {
   });
 
   if (lessons.length <= 0) {
-    return "todo";
+    return (
+      <ViewTransition>
+        <EmptyList />
+      </ViewTransition>
+    );
   }
 
   return (
-    <ItemGroup>
-      {lessons.map((item) => {
-        return (
-          <Lesson key={item.id} item={item} completeAction={completeAction} />
-        );
-      })}
-    </ItemGroup>
+    <ViewTransition>
+      <ItemGroup>
+        {lessons.map((item) => {
+          return (
+            <ViewTransition key={item.id}>
+              <Lesson item={item} completeAction={completeAction} />
+            </ViewTransition>
+          );
+        })}
+      </ItemGroup>
+    </ViewTransition>
   );
 };
 

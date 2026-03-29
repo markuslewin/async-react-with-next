@@ -7,6 +7,7 @@ import {
   ItemTitle,
 } from "@/app/components/ui/item";
 import { Skeleton } from "@/app/components/ui/skeleton";
+import { ViewTransition } from "react";
 
 export const FallbackListItem = () => {
   return (
@@ -29,10 +30,12 @@ export const FallbackListItem = () => {
 
 export const FallbackList = () => {
   return (
-    <ItemGroup>
-      {Array.from({ length: 6 }).map((_, i) => {
-        return <FallbackListItem key={i} />;
-      })}
-    </ItemGroup>
+    <ViewTransition>
+      <ItemGroup>
+        {Array.from({ length: 6 }).map((_, i) => {
+          return <FallbackListItem key={i} />;
+        })}
+      </ItemGroup>
+    </ViewTransition>
   );
 };

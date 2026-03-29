@@ -5,7 +5,7 @@ type CardRootProps = ComponentProps<"div">;
 export const CardRoot = (props: CardRootProps) => {
   return (
     <div
-      className="bg-card text-card-foreground border rounded-xl py-6 px-8"
+      className="bg-card text-card-foreground border rounded-xl py-6 px-8 min-h-147.75"
       data-slot="card-root"
       {...props}
     />
