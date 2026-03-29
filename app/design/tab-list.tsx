@@ -6,6 +6,7 @@ import {
   TabsRootProps,
   TabsTrigger,
 } from "@/app/components/ui/tabs";
+import { ButtonShimmer } from "@/app/design/button-shimmer";
 import { ReactNode, startTransition, useOptimistic } from "react";
 
 export type TabListProps = {
@@ -16,8 +17,7 @@ export type TabListProps = {
 
 export const TabList = ({ tab, children, changeAction }: TabListProps) => {
   const [optimisticTab, setOptimisticTab] = useOptimistic(tab);
-  // todo
-  // const isPending = tab !== optimisticTab;
+  const isPending = tab !== optimisticTab;
 
   const handleValueChange: TabsRootProps["onValueChange"] = (value) => {
     startTransition(async () => {
@@ -33,9 +33,18 @@ export const TabList = ({ tab, children, changeAction }: TabListProps) => {
       onValueChange={handleValueChange}
     >
       <TabsList>
-        <TabsTrigger value="all">All</TabsTrigger>
-        <TabsTrigger value="wip">In Progress</TabsTrigger>
-        <TabsTrigger value="done">Complete</TabsTrigger>
+        <TabsTrigger className="relative overflow-hidden isolate" value="all">
+          All
+          <ButtonShimmer isPending={isPending && optimisticTab === "all"} />
+        </TabsTrigger>
+        <TabsTrigger className="relative overflow-hidden isolate" value="wip">
+          In Progress
+          <ButtonShimmer isPending={isPending && optimisticTab === "wip"} />
+        </TabsTrigger>
+        <TabsTrigger className="relative overflow-hidden isolate" value="done">
+          Complete
+          <ButtonShimmer isPending={isPending && optimisticTab === "done"} />
+        </TabsTrigger>
       </TabsList>
       {children}
       {/* todo */}

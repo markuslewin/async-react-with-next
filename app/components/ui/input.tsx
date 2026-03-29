@@ -3,7 +3,7 @@ import { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 const inputVariants = cva(
-  "text-sm bg-input/30 h-9 border border-input rounded-md px-3 transition-shadow focus-visible:ring-ring focus-visible:ring-1 outline-hidden placeholder:text-muted-foreground",
+  "text-sm bg-input/30 h-9 px-3 outline-none placeholder:text-muted-foreground",
   {
     variants: {},
   },

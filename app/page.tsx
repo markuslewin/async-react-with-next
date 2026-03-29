@@ -1,19 +1,15 @@
 import { TabList } from "@/app/components/tab-list";
 import { CardRoot } from "@/app/components/ui/card";
-import {
-  InputGroupAddon,
-  InputGroupControl,
-  InputGroupRoot,
-} from "@/app/components/ui/input-group";
 import { ItemGroup } from "@/app/components/ui/item";
 import { CompleteButton } from "@/app/design/complete-button";
 import { LessonCard } from "@/app/design/lesson";
+import { SearchInput } from "@/app/design/search-input";
 import { toggleLesson } from "@/app/lib/actions";
-import { SearchIcon } from "lucide-react";
+import { setTimeout } from "node:timers/promises";
 import z from "zod";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
-  // await setTimeout(3000);
+  await setTimeout(3000);
 
   const { q, tab } = z
     .object({
@@ -35,12 +31,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
     <>
       <CardRoot>
         <div className="grid gap-2">
-          <InputGroupRoot>
-            <InputGroupAddon align={"inline-start"}>
-              <SearchIcon className="size-4" />
-            </InputGroupAddon>
-            <InputGroupControl placeholder="Search..." />
-          </InputGroupRoot>
+          <SearchInput value={q} />
           <TabList tab={tab}>
             <ItemGroup>
               {lessons.map((lesson) => {

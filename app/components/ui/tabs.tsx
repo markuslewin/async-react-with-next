@@ -1,5 +1,7 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { cx } from "class-variance-authority";
 import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 export type TabsRootProps = ComponentProps<typeof TabsPrimitive.Root>;
 
@@ -23,12 +25,17 @@ export const TabsList = (props: TabsListProps) => {
 
 type TabsTriggerProps = ComponentProps<typeof TabsPrimitive.Trigger>;
 
-export const TabsTrigger = (props: TabsTriggerProps) => {
+export const TabsTrigger = ({ className, ...props }: TabsTriggerProps) => {
   return (
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       {...props}
-      className="border border-transparent text-sm flex-1 rounded-md font-medium data-[state=active]:bg-input/30 data-[state=active]:text-foreground data-[state=active]:border-input"
+      className={twMerge(
+        cx(
+          "border border-transparent text-sm flex-1 rounded-md font-medium data-[state=active]:bg-input/30 data-[state=active]:text-foreground data-[state=active]:border-input",
+          className,
+        ),
+      )}
     />
   );
 };

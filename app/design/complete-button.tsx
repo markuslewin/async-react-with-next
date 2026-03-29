@@ -1,6 +1,7 @@
 "use client";
 
 import { PendingButton } from "@/app/design/pending-button";
+import { CircleCheckBig } from "lucide-react";
 import { startTransition, useOptimistic } from "react";
 
 type CompleteButtonProps = {
@@ -21,7 +22,9 @@ export const CompleteButton = ({ isComplete, action }: CompleteButtonProps) => {
 
   return (
     <PendingButton action={clickAction}>
-      {optimisticIsComplete ? "Complete" : "Incomplete"}
+      {optimisticIsComplete ? (
+        <CircleCheckBig className="size-4 text-chart-2" />
+      ) : null}
     </PendingButton>
   );
 };

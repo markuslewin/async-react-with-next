@@ -3,6 +3,16 @@
 
 @theme {
   --font-sans: var(--font-montserrat);
+  --animate-shimmer: shimmer 1.3s 300ms infinite;
+
+  @keyframes shimmer {
+    from {
+      translate: -100%;
+    }
+    to {
+      translate: 100%;
+    }
+  }
 }
 
 :root {

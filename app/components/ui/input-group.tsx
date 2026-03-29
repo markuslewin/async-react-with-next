@@ -1,15 +1,24 @@
 import { Input } from "@/app/components/ui/input";
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, cx, VariantProps } from "class-variance-authority";
 import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 type InputGroupRootProps = ComponentProps<"div">;
 
-export const InputGroupRoot = (props: InputGroupRootProps) => {
+export const InputGroupRoot = ({
+  className,
+  ...props
+}: InputGroupRootProps) => {
   return (
     <div
-      className="grid grid-cols-[auto_1fr_auto] group/input-group-root"
       data-slot="input-group-root"
       {...props}
+      className={twMerge(
+        cx(
+          "grid grid-cols-[auto_1fr_auto] group/input-group-root border border-input rounded-md transition-shadow has-focus-visible:ring-ring has-focus-visible:ring-1 forced-colors:has-focus-visible:outline",
+          className,
+        ),
+      )}
     />
   );
 };
