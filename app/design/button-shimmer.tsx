@@ -10,7 +10,7 @@ export const ButtonShimmer = ({ isPending }: ButtonShimmerProps) => {
   return (
     <span
       className={cx(
-        "absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-opacity",
+        "absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-opacity pointer-events-none",
         isPending ? "animate-shimmer" : "opacity-0",
       )}
     />

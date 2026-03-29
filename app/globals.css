@@ -1,5 +1,4 @@
 @import "tailwindcss";
-/* @import "tw-animate-css"; */
 
 @theme {
   --font-sans: var(--font-montserrat);
@@ -99,66 +98,6 @@
     @apply bg-[#282828] text-foreground py-10 grid grid-cols-[1fr_minmax(0,29.6875rem)_1fr] *:col-start-2 min-h-screen;
   }
 }
-
-/* @keyframes shimmer {
-  0% {
-    background-position: -468px 0;
-  }
-
-  100% {
-    background-position: 468px 0;
-  }
-}
-
-button.isPending {
-  pointer-events: none;
-}
-
-button.isPending:hover {
-  background-color: transparent;
-}
-
-.pending {
-  opacity: 0;
-  transition-delay: 200ms;
-  transition-property: opacity;
-  transition-duration: 200ms;
-  transition-timing-function: ease-in-out;
-}
-
-.pending.long {
-  transition-delay: 1.5s;
-}
-
-.pending.isPending {
-  opacity: 1;
-}
-
-@keyframes shimmer {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(100%);
-  }
-}
-
-.shimmer {
-  transform: translateX(-100%);
-}
-
-.animate-shimmer {
-  transform: translateX(-100%);
-  animation: shimmer 1s infinite;
-  animation-duration: 1.3s;
-  animation-delay: 300ms;
-}
-
-.animate-shimmer-long {
-  transform: translateX(-100%);
-  animation: shimmer 1.5s infinite;
-  animation-delay: 1.5s;
-} */
 
 /* todo: `ViewTransition` */
 /* ::view-transition-old(*) {
