@@ -2,6 +2,7 @@ import {
   Item,
   ItemContent,
   ItemDescription,
+  ItemGroup,
   ItemMedia,
   ItemTitle,
 } from "@/app/components/ui/item";
@@ -44,4 +45,12 @@ export const LessonCard = ({ item, children }: LessonProps) => {
       {children}
     </Item>
   );
+};
+
+type ListProps = {
+  children?: ReactNode;
+};
+
+export const List = ({ children }: ListProps) => {
+  return <ItemGroup>{children}</ItemGroup>;
 };

@@ -1,3 +1,4 @@
+import { CardRoot } from "@/app/components/ui/card";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${montserrat.variable} antialiased`}>
       <body>
-        <div>{children}</div>
+        <CardRoot>
+          <div className="grid gap-2">{children}</div>
+        </CardRoot>
       </body>
     </html>
   );

@@ -1,14 +1,11 @@
 import { TabList } from "@/app/components/tab-list";
-import { CardRoot } from "@/app/components/ui/card";
-import { ItemGroup } from "@/app/components/ui/item";
 import { CompleteButton } from "@/app/design/complete-button";
 import { EmptyList } from "@/app/design/empty-list";
 import { FallbackList } from "@/app/design/fallback";
-import { LessonCard } from "@/app/design/lesson";
+import { LessonCard, List } from "@/app/design/lesson";
 import { SearchInput } from "@/app/design/search-input";
 import type { Lesson } from "@/app/generated/prisma/client";
 import { revalidatePath } from "next/cache";
-import { setTimeout } from "node:timers/promises";
 import { Suspense, ViewTransition } from "react";
 import z from "zod";
 
@@ -72,7 +69,7 @@ const LessonList = async ({ tab, search, completeAction }: LessonListProps) => {
 
   return (
     <ViewTransition>
-      <ItemGroup>
+      <List>
         {lessons.map((item) => {
           return (
             <ViewTransition key={item.id}>
@@ -80,14 +77,12 @@ const LessonList = async ({ tab, search, completeAction }: LessonListProps) => {
             </ViewTransition>
           );
         })}
-      </ItemGroup>
+      </List>
     </ViewTransition>
   );
 };
 
 export default async function Home({ searchParams }: PageProps<"/">) {
-  // await setTimeout(3000);
-
   const { q, tab } = z
     .object({
       q: z.string().default(""),
@@ -115,20 +110,12 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
   return (
     <>
-      <CardRoot>
-        <div className="grid gap-2">
-          <SearchInput value={q} />
-          <TabList tab={tab}>
-            <Suspense fallback={<FallbackList />}>
-              <LessonList
-                tab={tab}
-                search={q}
-                completeAction={completeAction}
-              />
-            </Suspense>
-          </TabList>
-        </div>
-      </CardRoot>
+      <SearchInput value={q} />
+      <TabList tab={tab}>
+        <Suspense fallback={<FallbackList />}>
+          <LessonList tab={tab} search={q} completeAction={completeAction} />
+        </Suspense>
+      </TabList>
     </>
   );
 }

@@ -95,7 +95,7 @@
   }
 
   body {
-    @apply bg-[#282828] text-foreground py-10 grid grid-cols-[1fr_minmax(0,29.6875rem)_1fr] *:col-start-2 min-h-screen;
+    @apply bg-[#282828] text-foreground py-10 grid grid-cols-[1fr_minmax(0,29.6875rem)_1fr] *:col-start-2 min-h-screen items-start;
   }
 }
 
