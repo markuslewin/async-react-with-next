@@ -9,7 +9,7 @@ import { setTimeout } from "node:timers/promises";
 import z from "zod";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
-  await setTimeout(3000);
+  // await setTimeout(3000);
 
   const { q, tab } = z
     .object({
@@ -23,6 +23,18 @@ export default async function Home({ searchParams }: PageProps<"/">) {
   const { db } = await import("@/app/lib/db");
   const lessons = await db.lesson.findMany({
     where: {
+      OR: [
+        {
+          title: {
+            contains: q,
+          },
+        },
+        {
+          description: {
+            contains: q,
+          },
+        },
+      ],
       complete: tab === "done" ? true : tab === "wip" ? false : undefined,
     },
   });
