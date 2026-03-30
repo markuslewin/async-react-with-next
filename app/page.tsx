@@ -1,11 +1,12 @@
-import { TabList } from "@/app/components/tab-list";
 import { CompleteButton } from "@/app/design/complete-button";
 import { EmptyList } from "@/app/design/empty-list";
 import { FallbackList } from "@/app/design/fallback";
 import { LessonCard, List } from "@/app/design/lesson";
-import { SearchInput } from "@/app/design/search-input";
+import { SearchInput, SearchInputProps } from "@/app/design/search-input";
+import { TabList, TabListProps } from "@/app/design/tab-list";
 import type { Lesson } from "@/app/generated/prisma/client";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { Suspense, ViewTransition } from "react";
 import z from "zod";
 
@@ -82,7 +83,10 @@ const LessonList = async ({ tab, search, completeAction }: LessonListProps) => {
   );
 };
 
-export default async function Home({ searchParams }: PageProps<"/">) {
+export default async function Home({
+  searchParams: searchParamsPromise,
+}: PageProps<"/">) {
+  const searchParams = await searchParamsPromise;
   const { q, tab } = z
     .object({
       q: z.string().default(""),
@@ -90,7 +94,29 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         .union([z.literal("all"), z.literal("wip"), z.literal("done")])
         .default("all"),
     })
-    .parse(await searchParams);
+    .parse(searchParams);
+
+  const searchAction: SearchInputProps["changeAction"] = async (q) => {
+    "use server";
+
+    redirect(
+      `/?${new URLSearchParams({
+        q,
+        tab,
+      })}`,
+    );
+  };
+
+  const tabAction: TabListProps["changeAction"] = async (tab) => {
+    "use server";
+
+    redirect(
+      `/?${new URLSearchParams({
+        q,
+        tab,
+      })}`,
+    );
+  };
 
   const completeAction: CompleteAction = async (id, complete) => {
     "use server";
@@ -110,8 +136,8 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
   return (
     <>
-      <SearchInput value={q} />
-      <TabList tab={tab}>
+      <SearchInput value={q} changeAction={searchAction} />
+      <TabList tab={tab} changeAction={tabAction}>
         <Suspense fallback={<FallbackList />}>
           <LessonList tab={tab} search={q} completeAction={completeAction} />
         </Suspense>

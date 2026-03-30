@@ -23,7 +23,7 @@ export const InputGroupRoot = ({
   );
 };
 
-type InputGroupControlProps = ComponentProps<"input">;
+export type InputGroupControlProps = ComponentProps<"input">;
 
 export const InputGroupControl = (props: InputGroupControlProps) => {
   return (

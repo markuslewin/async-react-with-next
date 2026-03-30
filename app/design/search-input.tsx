@@ -1,24 +1,31 @@
 "use client";
 
 import {
-  InputGroupRoot,
   InputGroupAddon,
   InputGroupControl,
+  InputGroupControlProps,
+  InputGroupRoot,
 } from "@/app/components/ui/input-group";
 import { ButtonShimmer } from "@/app/design/button-shimmer";
 import { SearchIcon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { startTransition, useOptimistic } from "react";
 
-type SearchInputProps = {
+export type SearchInputProps = {
   value: string;
+  changeAction: (value: string) => Promise<void>;
 };
 
-export const SearchInput = ({ value }: SearchInputProps) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+export const SearchInput = ({ value, changeAction }: SearchInputProps) => {
   const [optimisticValue, setOptimisticValue] = useOptimistic(value);
   const isPending = optimisticValue !== value;
+
+  const handleChange: InputGroupControlProps["onChange"] = (e) => {
+    const nextValue = e.target.value;
+    startTransition(async () => {
+      setOptimisticValue(nextValue);
+      await changeAction(nextValue);
+    });
+  };
 
   return (
     <InputGroupRoot className="relative overflow-hidden isolate">
@@ -27,16 +34,7 @@ export const SearchInput = ({ value }: SearchInputProps) => {
       </InputGroupAddon>
       <InputGroupControl
         value={optimisticValue}
-        onChange={(e) => {
-          const nextValue = e.target.value;
-          const nextSearchParams = new URLSearchParams(searchParams);
-          // todo: `searchName`
-          nextSearchParams.set("q", nextValue);
-          startTransition(() => {
-            setOptimisticValue(nextValue);
-            router.replace(`/?${nextSearchParams}`);
-          });
-        }}
+        onChange={handleChange}
         placeholder="Search..."
       />
       <ButtonShimmer isPending={isPending} />
